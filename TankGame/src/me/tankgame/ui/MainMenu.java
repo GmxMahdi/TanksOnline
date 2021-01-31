@@ -43,9 +43,9 @@ public class MainMenu extends JPanel {
 		this.add(btnPlayOnline);
 		this.add(btnSettings);
 		
-		btnTraining.setFont(btnFont);
-		btnPlayOnline.setFont(btnFont);
-		btnSettings.setFont(btnFont);
+//		btnTraining.setFont(btnFont);
+//		btnPlayOnline.setFont(btnFont);
+//		btnSettings.setFont(btnFont);
 	
 		// title
 		layout.putConstraint(
@@ -80,7 +80,7 @@ public class MainMenu extends JPanel {
 				10, SpringLayout.WEST, this);
 		
 		//Border border = BorderFactory.createLineBorder(Color.green, 3);
-		title.setFont(new Font("Consolas", Font.PLAIN , 40));
+		//title.setFont(new Font("Consolas", Font.PLAIN , 40));
 		//title.setBorder(border);
 	}
 	
