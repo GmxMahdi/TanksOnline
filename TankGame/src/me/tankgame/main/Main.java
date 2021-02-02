@@ -8,6 +8,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import me.tankgame.game.GameView;
@@ -21,26 +22,24 @@ public class Main {
 	private static JFrame frame;
 	
 	public static void main(String[] args) {
-		// FlatDarkLaf.install();
-		FlatLightLaf.install();
-		ImageIcon image = new ImageIcon("C:\\Users\\D0_00\\Desktop\\Desktop Compilation 2.1\\dragon.png");
+		FlatDarkLaf.install();
+		//FlatLightLaf.install();
+		//ImageIcon image = new ImageIcon("C:\\Users\\D0_00\\Desktop\\Desktop Compilation 2.1\\dragon.png");
 		
 		frame = new JFrame("Tank");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(WIDTH, HEIGHT);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);	
-		frame.setIconImage(image.getImage());
+		//frame.setIconImage(image.getImage());
 
 		GameView view = new GameView();
-
-		frame.addMouseListener(view.trainingMode);
-		frame.addKeyListener(view.trainingMode);
-
-		frame.getContentPane().add(new MainMenu());
+		frame.getContentPane().add(view);
 
 		frame.setVisible(true);
 		// frame.pack();
+
+		view.run();
 	}
 	
 	public static void SwitchMenu(JPanel menu) {

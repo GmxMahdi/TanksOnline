@@ -1,47 +1,29 @@
 package me.tankgame.game;
 
-import me.tankgame.components.InputListener;
+import me.tankgame.game.player.Tank;
 import me.tankgame.main.Main;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
-public class TrainingMode implements MouseListener, KeyListener {
+public class TrainingMode extends KeyAdapter {
+    Tank player;
+    boolean running;
+
     public TrainingMode() {
+        running = true;
+        player = new Tank((Main.WIDTH / 2f) - 25, (Main.HEIGHT / 2f) - 25);
+    }
 
+    public void update() {
+        player.update();
     }
 
     public void draw(Graphics2D g) {
         g.setColor(Color.DARK_GRAY);
         g.fillRect(0, 0, Main.WIDTH, Main.HEIGHT);
-    }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
+        player.draw(g);
     }
 
     @Override
@@ -51,11 +33,11 @@ public class TrainingMode implements MouseListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        player.keyDown(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        player.keyUp(e);
     }
 }

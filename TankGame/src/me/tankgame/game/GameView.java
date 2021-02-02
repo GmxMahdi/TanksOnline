@@ -7,6 +7,20 @@ public class GameView extends JPanel {
     public TrainingMode trainingMode;
     public GameView() {
         trainingMode = new TrainingMode();
+        this.addKeyListener(trainingMode);
+    }
+
+    public void run() {
+        while (trainingMode.running) {
+            trainingMode.update();
+            this.repaint();
+
+            try {
+                Thread.sleep(16);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
