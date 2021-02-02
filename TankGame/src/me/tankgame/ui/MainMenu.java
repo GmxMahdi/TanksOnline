@@ -1,91 +1,65 @@
 package me.tankgame.ui;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
+import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SpringLayout;
+import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class MainMenu extends JPanel {
-	private static final long serialVersionUID = 1L;
-	
-	private Image backgroundImage;
-	 
-	SpringLayout layout = new SpringLayout();
-	
-	JLabel title = new JLabel("Tanks?!");
-	JButton btnTraining = new JButton("Training Mode");
-	JButton btnPlayOnline = new JButton("Play Online");
-	JButton btnSettings = new JButton("Settings");
-	
-	Font btnFont = new Font("Arial", Font.PLAIN, 20);
-	
+	private JTextField txtUsername;
+	private JPasswordField txtPassword;
 	public MainMenu() {
-
-		try {
-			backgroundImage = ImageIO.read(new File("C:\\Users\\D0_00\\Desktop\\bg_menu.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		setLayout(null);
 		
-		this.setLayout(layout);
-		this.setBackground(Color.white);
-		this.add(title);
-		this.add(btnTraining);
-		this.add(btnPlayOnline);
-		this.add(btnSettings);
+		JButton btnSettings = new JButton("Settings");
+		btnSettings.setBounds(10, 426, 110, 23);
+		add(btnSettings);
 		
-//		btnTraining.setFont(btnFont);
-//		btnPlayOnline.setFont(btnFont);
-//		btnSettings.setFont(btnFont);
-	
-		// title
-		layout.putConstraint(
-				SpringLayout.NORTH, title, 
-				10, SpringLayout.NORTH, this);
-		layout.putConstraint(
-				SpringLayout.WEST, title, 
-				10, SpringLayout.WEST, this);
+		JButton btnPlayOnline = new JButton("Play Online");
+		btnPlayOnline.setBounds(10, 392, 110, 23);
+		add(btnPlayOnline);
 		
-		// btnSettings
-		layout.putConstraint(
-				SpringLayout.SOUTH, btnSettings, 
-				-10, SpringLayout.SOUTH, this);
-		layout.putConstraint(
-				SpringLayout.WEST, btnSettings, 
-				10, SpringLayout.WEST, this);
+		JButton btnTraining = new JButton("Training");
+		btnTraining.setBounds(10, 358, 110, 23);
+		add(btnTraining);
 		
-		// btnPlayOnline
-		layout.putConstraint(
-				SpringLayout.SOUTH, btnPlayOnline, 
-				-5, SpringLayout.NORTH, btnSettings);
-		layout.putConstraint(
-				SpringLayout.WEST, btnPlayOnline, 
-				10, SpringLayout.WEST, this);
+		JLabel lblTitle = new JLabel("Tanks?!");
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 36));
+		lblTitle.setBounds(46, 34, 168, 104);
+		add(lblTitle);
 		
-		// btnTraining
-		layout.putConstraint(
-				SpringLayout.SOUTH, btnTraining, 
-				-5, SpringLayout.NORTH, btnPlayOnline);
-		layout.putConstraint(
-				SpringLayout.WEST, btnTraining, 
-				10, SpringLayout.WEST, this);
+		JPanel panel = new JPanel();
+		panel.setBounds(332, 11, 238, 90);
+		add(panel);
+		panel.setLayout(null);
 		
-		//Border border = BorderFactory.createLineBorder(Color.green, 3);
-		//title.setFont(new Font("Consolas", Font.PLAIN , 40));
-		//title.setBorder(border);
-	}
-	
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.drawImage(backgroundImage, 0, 0, this);
+		txtPassword = new JPasswordField();
+		txtPassword.setBounds(78, 28, 160, 20);
+		panel.add(txtPassword);
+		
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPassword.setBounds(0, 31, 67, 14);
+		panel.add(lblPassword);
+		
+		JButton btnLogin = new JButton("Login");
+		btnLogin.setBounds(149, 59, 89, 23);
+		panel.add(btnLogin);
+		
+		txtUsername = new JTextField();
+		txtUsername.setBounds(78, 0, 160, 20);
+		panel.add(txtUsername);
+		txtUsername.setColumns(10);
+		
+		JLabel lblUsername = new JLabel("Username");
+		lblUsername.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblUsername.setBounds(0, 3, 67, 14);
+		panel.add(lblUsername);
 	}
 }
