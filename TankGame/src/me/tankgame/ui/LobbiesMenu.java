@@ -41,9 +41,9 @@ public class LobbiesMenu extends JPanel {
 		btnCreateLobby.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
 		panelBtns.setBounds(
-				430,11, 150,100);
+				440,11, 150,100);
 		lobbyListComponent.setBounds(10, 11, 200, 400);
-		btnBack.setBounds(481, 426, 89, 23);
+		btnBack.setBounds(501, 466, 89, 23);
 		
 		add(btnBack);
 		btnBack.addActionListener(new ActionListener() {

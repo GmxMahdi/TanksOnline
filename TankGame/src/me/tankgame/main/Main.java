@@ -1,6 +1,7 @@
 package me.tankgame.main;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -29,9 +30,9 @@ public class Main {
 		
 		frame = new JFrame("Tank");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(WIDTH, HEIGHT);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);	
+		frame.getContentPane().setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		//frame.setIconImage(image.getImage());
 
 		GameView view = new GameView();
@@ -39,7 +40,7 @@ public class Main {
 		view.setFocusable(true);
 
 		frame.setVisible(true);
-		// frame.pack();
+		frame.pack();
 
 		view.run();
 	}

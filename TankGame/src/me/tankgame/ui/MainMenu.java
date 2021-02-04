@@ -22,7 +22,7 @@ public class MainMenu extends JPanel {
 		setLayout(null);
 		
 		JButton btnPlayOnline = new JButton("Play Online");
-		btnPlayOnline.setBounds(10, 426, 110, 23);
+		btnPlayOnline.setBounds(10, 466, 110, 23);
 		add(btnPlayOnline);
 		btnPlayOnline.addActionListener(new ActionListener() {
 			@Override
@@ -33,7 +33,7 @@ public class MainMenu extends JPanel {
 		});
 		
 		JButton btnTraining = new JButton("Training");
-		btnTraining.setBounds(10, 392, 110, 23);
+		btnTraining.setBounds(10, 432, 110, 23);
 		add(btnTraining);
 		btnTraining.addActionListener(new ActionListener() {
 			@Override
@@ -51,7 +51,7 @@ public class MainMenu extends JPanel {
 		add(lblTitle);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(332, 11, 238, 90);
+		panel.setBounds(352, 11, 238, 90);
 		add(panel);
 		panel.setLayout(null);
 		

@@ -7,16 +7,20 @@ import me.tankgame.game.models.MovableEntity;
 
 public class Tank extends MovableEntity {
 	
+	private Color color;
+	
+	
     public Tank(float X, float Y) {
         this.X = X;
         this.Y = Y;
         this.width = 50;
         this.height = 50;
         this.speed = 5;
+        this.color = Color.red;
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.black);
+        g.setColor(this.color);
         g.fillRect((int)this.X, (int)this.Y, width, height);
     }
 
@@ -58,4 +62,7 @@ public class Tank extends MovableEntity {
                 break;
         }
     }
+    
+    public Color GetColor() { return this.color; }
+    public void SetColor(Color color) { this.color = color; }
 }
