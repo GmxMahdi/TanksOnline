@@ -7,8 +7,8 @@ import me.tankgame.main.Main;
 
 public class Crate extends Entity {
 	
-	public static final int WIDTH = 50;
-	public static final int HEIGHT = 50;
+	public static final int WIDTH = 100;
+	public static final int HEIGHT = 70;
 	public Crate() {
 		super(WIDTH, HEIGHT);
 	}

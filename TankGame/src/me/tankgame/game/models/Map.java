@@ -11,16 +11,26 @@ public class Map extends Entity{
 
 	private ArrayList<Entity> entities;
 	
+	private ArrayList<MovableEntity> movableEntities;
+	
 	public Map() {
 		entities = new ArrayList<Entity>();
+		movableEntities = new ArrayList<MovableEntity>();
 		SetupCrates();
 	}
 	
 	public void SetupCrates() {
-		for (int i = 0; i < 6; ++i) {
-			Crate c = new Crate(i*Crate.WIDTH*2, 0);
-			entities.add(c);
-		}
+		
+		Crate c = new Crate(200, 200);
+		Crate d =  new Crate(100, 100);
+		entities.add(c);
+		entities.add(new Crate(0,0));
+		entities.add(new Crate(100,300));
+		//entities.add(d);
+//		for (int i = 0; i < 6; ++i) {
+//			Crate c = new Crate(i*Crate.WIDTH*2, 0);
+//			entities.add(c);
+//		}
 	}
 	
 	@Override
@@ -32,12 +42,26 @@ public class Map extends Entity{
         	entity.draw(g);
 	}
 	
+	public void update() {
+		for (MovableEntity me : movableEntities) {
+			me.update(entities);
+		}
+	}
+	
 	public void AddEntity(Entity entity) {
 		entities.add(entity);
 	}
 	
 	public void RemoveEntity(Entity entity) {
 		entities.remove(entity);
+	}
+	
+	public void AddMovableEntity(MovableEntity entity) {
+		movableEntities.add(entity);
+	}
+	
+	public void RemoveMovableEntity(MovableEntity entity) {
+		movableEntities.remove(entity);
 	}
 	
 }

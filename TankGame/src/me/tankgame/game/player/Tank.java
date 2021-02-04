@@ -2,7 +2,9 @@ package me.tankgame.game.player;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
+import me.tankgame.game.models.Entity;
 import me.tankgame.game.models.MovableEntity;
 
 public class Tank extends MovableEntity {
@@ -24,9 +26,9 @@ public class Tank extends MovableEntity {
         g.fillRect((int)this.X, (int)this.Y, width, height);
     }
 
-    public void update() {
-        X += velX;
-        Y += velY;
+
+   public void update(ArrayList<Entity> entities) {
+	   collisionDetection(entities);
     }
 
     public void keyDown(KeyEvent e) {

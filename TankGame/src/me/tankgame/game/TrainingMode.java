@@ -23,10 +23,11 @@ public class TrainingMode extends KeyAdapter {
         player.SetColor(Color.yellow);
         
         map.AddEntity(player);
+        map.AddMovableEntity(player);
     }
 
     public void update() {
-        player.update();
+        map.update();
     }
 
     public void draw(Graphics2D g) {
