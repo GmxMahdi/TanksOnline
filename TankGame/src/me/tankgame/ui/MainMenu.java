@@ -8,6 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
+
+import me.tankgame.game.GameView;
+import me.tankgame.game.TrainingMode;
+import me.tankgame.main.Main;
+
 import java.awt.Font;
 
 public class MainMenu extends JPanel {
@@ -16,17 +21,28 @@ public class MainMenu extends JPanel {
 	public MainMenu() {
 		setLayout(null);
 		
-		JButton btnSettings = new JButton("Settings");
-		btnSettings.setBounds(10, 426, 110, 23);
-		add(btnSettings);
-		
 		JButton btnPlayOnline = new JButton("Play Online");
-		btnPlayOnline.setBounds(10, 392, 110, 23);
+		btnPlayOnline.setBounds(10, 426, 110, 23);
 		add(btnPlayOnline);
+		btnPlayOnline.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Main.SwitchMenu(new LobbiesMenu());
+			}
+			
+		});
 		
 		JButton btnTraining = new JButton("Training");
-		btnTraining.setBounds(10, 358, 110, 23);
+		btnTraining.setBounds(10, 392, 110, 23);
 		add(btnTraining);
+		btnTraining.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Main.SwitchMenu(new GameView());
+			}
+			
+		});
+		
 		
 		JLabel lblTitle = new JLabel("Tanks?!");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);

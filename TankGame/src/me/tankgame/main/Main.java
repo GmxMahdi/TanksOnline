@@ -22,6 +22,7 @@ public class Main {
 	private static JFrame frame;
 	
 	public static void main(String[] args) {
+		System.out.println("Application started");
 		FlatDarkLaf.install();
 		//FlatLightLaf.install();
 		//ImageIcon image = new ImageIcon("C:\\Users\\D0_00\\Desktop\\Desktop Compilation 2.1\\dragon.png");
@@ -35,6 +36,7 @@ public class Main {
 
 		GameView view = new GameView();
 		frame.getContentPane().add(view);
+		view.setFocusable(true);
 
 		frame.setVisible(true);
 		// frame.pack();

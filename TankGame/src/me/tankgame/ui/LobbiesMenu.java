@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -12,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
 import me.tankgame.components.LobbyListComponent;
+import me.tankgame.game.GameView;
 import me.tankgame.main.Main;
 
 public class LobbiesMenu extends JPanel {
@@ -43,5 +46,12 @@ public class LobbiesMenu extends JPanel {
 		btnBack.setBounds(481, 426, 89, 23);
 		
 		add(btnBack);
+		btnBack.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Main.SwitchMenu(new MainMenu());
+			}
+			
+		});
 	}
 }
