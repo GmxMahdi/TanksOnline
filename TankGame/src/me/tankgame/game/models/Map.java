@@ -10,7 +10,6 @@ import me.tankgame.main.Main;
 public class Map extends Entity{
 
 	private ArrayList<Entity> entities;
-	
 	private ArrayList<MovableEntity> movableEntities;
 	
 	public Map() {

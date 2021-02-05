@@ -4,15 +4,20 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import me.tankgame.game.models.Bullet;
 import me.tankgame.game.models.Entity;
+import me.tankgame.game.models.Map;
 import me.tankgame.game.models.MovableEntity;
 
 public class Tank extends MovableEntity {
 	
 	private Color color;
 	private Cursor cursor;
+	private ArrayList<Bullet> bullets;
 	
-    public Tank(float X, float Y) {
+	private Map map;
+	
+    public Tank(float X, float Y, Map map) {
         this.X = X;
         this.Y = Y;
         this.width = 50;
@@ -21,6 +26,8 @@ public class Tank extends MovableEntity {
         this.color = Color.red;
         
         cursor = new Cursor();
+        
+        this.map = map;
     }
 
     public void draw(Graphics2D g) {
@@ -28,16 +35,28 @@ public class Tank extends MovableEntity {
         g.fillRect((int)this.X, (int)this.Y, width, height);
         
         // DRAW BARREL OF TANK (set it to a function or something else
-        double angle = Math.atan2(this.cursor.getY() - this.Y, this.cursor.getX()- this.X);
+        double angle = Math.atan2(this.cursor.getY() - this.getCenterY(), this.cursor.getX() - this.getCenterX());
         double length = 50;
         
         g.setColor(Color.red);
         g.setStroke(new BasicStroke(10));
-        g.drawLine((int)this.X, (int)this.Y, 
-        		(int)(this.X + Math.cos(angle)*length), (int)(this.Y + Math.sin(angle)*length));
+        g.drawLine((int)this.getCenterX(), (int)this.getCenterY(), 
+        		(int)(this.getCenterX() + Math.cos(angle)*length), (int)(this.getCenterY() + Math.sin(angle)*length));
         cursor.draw(g);
     }
 
+    public void shoot() {
+
+    	double angle = Math.atan2(this.cursor.getY() - this.getCenterY(), this.cursor.getX() - this.getCenterX());
+        double length = 50;
+    	Bullet b = new Bullet((int)(this.getCenterX()+ Math.cos(angle)*length), (int)(this.getCenterY() + Math.sin(angle)*length));
+        b.setVelX((float)Math.cos(angle)*b.getSpeed());
+        b.setVelY((float)Math.sin(angle)*b.getSpeed());
+        
+        map.AddEntity(b);
+        map.AddMovableEntity(b);
+        System.out.println("bullet shot");
+    }
 
    public void update(ArrayList<Entity> entities) {
 	   collisionDetection(entities);
