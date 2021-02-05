@@ -8,6 +8,8 @@ public class GameView extends JPanel {
     public GameView() {
         trainingMode = new TrainingMode();
         this.addKeyListener(trainingMode);
+        this.addMouseListener(trainingMode);
+        this.addMouseMotionListener(trainingMode);
     }
 
     public void run() {

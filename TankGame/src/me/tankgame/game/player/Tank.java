@@ -10,7 +10,7 @@ import me.tankgame.game.models.MovableEntity;
 public class Tank extends MovableEntity {
 	
 	private Color color;
-	
+	private Cursor cursor;
 	
     public Tank(float X, float Y) {
         this.X = X;
@@ -19,11 +19,23 @@ public class Tank extends MovableEntity {
         this.height = 50;
         this.speed = 5;
         this.color = Color.red;
+        
+        cursor = new Cursor();
     }
 
     public void draw(Graphics2D g) {
         g.setColor(this.color);
         g.fillRect((int)this.X, (int)this.Y, width, height);
+        
+        // DRAW BARREL OF TANK (set it to a function or something else
+        double angle = Math.atan2(this.cursor.getY() - this.Y, this.cursor.getX()- this.X);
+        double length = 50;
+        
+        g.setColor(Color.red);
+        g.setStroke(new BasicStroke(10));
+        g.drawLine((int)this.X, (int)this.Y, 
+        		(int)(this.X + Math.cos(angle)*length), (int)(this.Y + Math.sin(angle)*length));
+        cursor.draw(g);
     }
 
 
@@ -67,4 +79,6 @@ public class Tank extends MovableEntity {
     
     public Color GetColor() { return this.color; }
     public void SetColor(Color color) { this.color = color; }
+    
+    public Cursor getCursor() { return this.cursor; }
 }
