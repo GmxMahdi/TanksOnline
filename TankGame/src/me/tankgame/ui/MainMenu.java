@@ -8,11 +8,19 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
 import me.tankgame.game.GameView;
+import me.tankgame.network.NetManager;
+import me.tankgame.network.paquet.database.AddFriendRequest;
+import me.tankgame.network.paquet.database.AddFriendResponse;
+import me.tankgame.network.paquet.database.FriendListResponse;
 import me.tankgame.network.paquet.database.LoginResponse;
+import me.tankgame.network.paquet.database.RemoveFriendResponse;
+import me.tankgame.network.paquet.database.ReplyFriendResponse;
 
 import java.awt.Font;
 import java.awt.Color;
 import me.tankgame.components.LoginComponent;
+import me.tankgame.components.FriendListComponent;
+import me.tankgame.components.TextFieldWithPrompt;
 
 public class MainMenu extends NetworkingMenu {
 	
@@ -20,6 +28,7 @@ public class MainMenu extends NetworkingMenu {
 	private JPanel panelNotification;
 	private JLabel lblNotification;
 	private JButton btnPlayOnline;
+	private FriendListComponent friendListComponent;
 	
 	public MainMenu() {
 		setLayout(null);
@@ -69,6 +78,25 @@ public class MainMenu extends NetworkingMenu {
 		loginComponent = new LoginComponent();
 		loginComponent.setBounds(352, 11, 238, 111);
 		add(loginComponent);
+		
+		friendListComponent = new FriendListComponent();
+		friendListComponent.setBounds(422, 167, 168, 322);
+		friendListComponent.setVisible(false);
+		add(friendListComponent);
+	}
+	
+	public void setupConnectedMenu(LoginResponse re) {
+		NetManager.getUser().setUsername(re.username);
+		NetManager.getUser().setConnected(true);
+		
+		loginComponent.setVisible(false);
+		panelNotification.setVisible(true);
+		btnPlayOnline.setEnabled(true);
+		friendListComponent.setVisible(true);
+		
+		lblNotification.setText("Connected as " + re.username);
+		
+		friendListComponent.refreshFriendList();
 	}
 
 	@Override
@@ -77,14 +105,22 @@ public class MainMenu extends NetworkingMenu {
 		{
 			LoginResponse re = (LoginResponse)o;
 			loginComponent.validateLogin(re.isLoginValid);
-			
-			if (re.isLoginValid) {
-				loginComponent.setVisible(false);
-				panelNotification.setVisible(true);
-				lblNotification.setText("Connected as " + re.username);
-				
-				btnPlayOnline.setEnabled(true);
-			}
+			if (re.isLoginValid) setupConnectedMenu(re);
+		}
+		else if (o instanceof FriendListResponse) {
+			FriendListResponse flr = (FriendListResponse)o;
+			friendListComponent.populateFriendList(flr.friendList);
+		}
+		else if (o instanceof AddFriendResponse) {
+			AddFriendResponse adr = (AddFriendResponse)o;
+			if(adr.isValid) friendListComponent.refreshFriendList();
+			else Gui.ShowWarning("Could not add friend \"" + adr.username +"\"");
+		}
+		else if (o instanceof RemoveFriendResponse) {
+			friendListComponent.refreshFriendList();
+		}
+		else if (o instanceof ReplyFriendResponse) {
+			friendListComponent.refreshFriendList();
 		}
 	}
 }

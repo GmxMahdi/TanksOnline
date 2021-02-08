@@ -58,7 +58,7 @@ public class Gui {
 		frame.repaint();
 	}
 	
-	public static void ReceiveNetworkResponse(Object o ) {
+	public static void ReceiveNetworkResponse(Object o) {
 		currentMenu.handleNetworkResponse(o);
 	}
 	

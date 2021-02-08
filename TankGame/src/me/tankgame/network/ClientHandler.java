@@ -7,7 +7,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-import me.tankgame.network.paquet.database.LoginRequest;
+import me.tankgame.network.paquet.database.*;
 import me.tankgame.ui.Gui;
 
 public class ClientHandler extends Listener {
@@ -31,10 +31,23 @@ public class ClientHandler extends Listener {
 	}
 	
 	public static void send(Object o) {
-		if (o instanceof LoginRequest) {
-			LoginRequest re = (LoginRequest)o;
-			client.sendTCP(re);
-		}
+		client.sendTCP(o);
+//		if (o instanceof LoginRequest) {
+//			LoginRequest re = (LoginRequest)o;
+//			client.sendTCP(re);
+//		}
+//		else if (o instanceof FriendListRequest) {
+//			FriendListRequest flr = (FriendListRequest)o;
+//			client.sendTCP(flr);
+//		}
+//		else if (o instanceof AddFriendRequest) {
+//			AddFriendRequest adr = (AddFriendRequest)o;
+//			client.sendTCP(adr);
+//		}
+//		else if (o instanceof RemoveFriendRequest) {
+//			RemoveFriendRequest rfr = (RemoveFriendRequest)o;
+//			client.sendTCP(rfr);
+//		}
 	}
 	
 	public void received(Connection c, Object o) {

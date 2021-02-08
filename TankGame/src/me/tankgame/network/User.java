@@ -11,21 +11,21 @@ public class User {
 	}
 	
 	
-	public static String getUsername() {
+	public String getUsername() {
 		return username;
 	}
 	
-	public static boolean isConnected() {
+	public boolean isConnected() {
 		return isConnected;
 	}
 	
 
 
-	public static void setConnected(boolean isConnected) {
+	public void setConnected(boolean isConnected) {
 		User.isConnected = isConnected;
 	}
 
-	public static void setUsername(String username) {
+	public void setUsername(String username) {
 		User.username = username;
 	}
 

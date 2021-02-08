@@ -57,18 +57,20 @@ public class LoginComponent extends JPanel {
 				lblNotification.setForeground(Color.ORANGE);
 				lblNotification.setText("Fields cannot be empty.");	
 			}
-			else {
-				String username = txtUsername.getText().toLowerCase().trim();
-				String password = new String(txtPassword.getPassword());
-				ClientHandler.send(new LoginRequest(username, password));
-			}
+			else sendLoginRequest();
 		});
+	}
+	
+	public void sendLoginRequest() {
+		String username = txtUsername.getText().toLowerCase().trim();
+		String password = new String(txtPassword.getPassword());
+		ClientHandler.send(new LoginRequest(username, password));
 	}
 	
 	public void validateLogin(Boolean isValid) {
 		if (!isValid) {
 			lblNotification.setForeground(Color.ORANGE);
-			lblNotification.setText("Bad username/password");	
+			lblNotification.setText("Bad username/password");
 		}
 	}
 }
