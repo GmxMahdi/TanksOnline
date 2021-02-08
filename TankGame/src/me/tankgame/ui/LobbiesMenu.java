@@ -1,9 +1,6 @@
 package me.tankgame.ui;
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,13 +8,9 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.SpringLayout;
 
 import me.tankgame.components.LobbyListComponent;
-import me.tankgame.game.GameView;
-import me.tankgame.main.Main;
-
-public class LobbiesMenu extends JPanel {
+public class LobbiesMenu extends NetworkingMenu {
 	private static final long serialVersionUID = 1L;
 
 	LobbyListComponent lobbyListComponent = new LobbyListComponent();
@@ -49,9 +42,15 @@ public class LobbiesMenu extends JPanel {
 		btnBack.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Main.SwitchMenu(new MainMenu());
+				Gui.SwitchMenu(new MainMenu());
 			}
 			
 		});
+	}
+
+	@Override
+	public void handleNetworkResponse(Object o) {
+		// TODO Auto-generated method stub
+		
 	}
 }

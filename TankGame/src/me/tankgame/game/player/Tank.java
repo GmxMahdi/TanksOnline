@@ -13,15 +13,19 @@ public class Tank extends MovableEntity {
 	
 	private Color color;
 	private Cursor cursor;
-	private ArrayList<Bullet> bullets;
+	
+	private float barrelLength = 50;
 	
 	private Map map;
+	
+	private boolean colX = false;
+	private boolean colY = false;
 	
     public Tank(float X, float Y, Map map) {
         this.X = X;
         this.Y = Y;
-        this.width = 50;
-        this.height = 50;
+        this.width = 30;
+        this.height = 30;
         this.speed = 5;
         this.color = Color.red;
         
@@ -29,38 +33,70 @@ public class Tank extends MovableEntity {
         
         this.map = map;
     }
+    
+    private float getBarrelAngle() {
+    	return (float)Math.atan2(this.cursor.getY() - this.getCenterY(), this.cursor.getX() - this.getCenterX());
+    }
 
     public void draw(Graphics2D g) {
         g.setColor(this.color);
         g.fillRect((int)this.X, (int)this.Y, width, height);
         
         // DRAW BARREL OF TANK (set it to a function or something else
-        double angle = Math.atan2(this.cursor.getY() - this.getCenterY(), this.cursor.getX() - this.getCenterX());
-        double length = 50;
+        double barrelAngle = getBarrelAngle();
         
         g.setColor(Color.red);
-        g.setStroke(new BasicStroke(10));
+        g.setStroke(new BasicStroke(5));
         g.drawLine((int)this.getCenterX(), (int)this.getCenterY(), 
-        		(int)(this.getCenterX() + Math.cos(angle)*length), (int)(this.getCenterY() + Math.sin(angle)*length));
+        		(int)(this.getCenterX() + Math.cos(barrelAngle)*barrelLength), (int)(this.getCenterY() + Math.sin(barrelAngle)*barrelLength));
         cursor.draw(g);
     }
 
     public void shoot() {
-
-    	double angle = Math.atan2(this.cursor.getY() - this.getCenterY(), this.cursor.getX() - this.getCenterX());
-        double length = 50;
-    	Bullet b = new Bullet((int)(this.getCenterX()+ Math.cos(angle)*length), (int)(this.getCenterY() + Math.sin(angle)*length));
-        b.setVelX((float)Math.cos(angle)*b.getSpeed());
-        b.setVelY((float)Math.sin(angle)*b.getSpeed());
+    	double barrelAngle = getBarrelAngle();
+    	Bullet b = new Bullet((int)(this.getCenterX()+ Math.cos(barrelAngle)*barrelLength), (int)(this.getCenterY() + Math.sin(barrelAngle)*barrelLength));
+        b.setVelX((float)Math.cos(barrelAngle)*b.getSpeed());
+        b.setVelY((float)Math.sin(barrelAngle)*b.getSpeed());
         
         map.AddEntity(b);
         map.AddMovableEntity(b);
-        System.out.println("bullet shot");
     }
 
    public void update(ArrayList<Entity> entities) {
 	   collisionDetection(entities);
     }
+   
+	public void collisionDetection(ArrayList<Entity> entities) {
+		colX = false;
+		colY = false;
+		
+		for (Entity e: entities)
+			if (e != this)
+				isColliding(e);
+		
+		if (!colX) this.X += this.velX;
+		if (!colY) this.Y += this.velY;
+	}
+
+	public void isColliding(Entity e) {
+		// Horizontal displacement
+		if (this.velX + this.X + this.width > e.getX() &&  this.getVelX() + this.X < e.getX() + e.getWidth() &&
+			this.Y + this.height > e.getY() && this.Y < e.getY() + e.getHeight()) {
+				// performing action
+				if (velX > 0) this.X = e.getX() - this.width;
+				if (velX < 0) this.X = e.getX() + e.getWidth();
+			this.colX = true;
+		}
+		
+		// Vertical displacement
+		if (this.X + this.width > e.getX() &&  this.X < e.getX() + e.getWidth() &&
+			this.velY + this.Y + this.height > e.getY() && this.velY + this.Y < e.getY() + e.getHeight()) {
+				// performing action
+				if (velY > 0) this.Y = e.getY() - this.height;
+				if (velY < 0) this.Y = e.getY() + e.getHeight();
+			this.colY = true;
+		}
+	}
 
     public void keyDown(KeyEvent e) {
         switch (e.getKeyCode()) {

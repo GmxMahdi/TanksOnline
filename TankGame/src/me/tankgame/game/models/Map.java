@@ -3,9 +3,8 @@ package me.tankgame.game.models;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.List;
 
-import me.tankgame.main.Main;
+import me.tankgame.ui.Gui;
 
 public class Map extends Entity{
 
@@ -15,27 +14,34 @@ public class Map extends Entity{
 	public Map() {
 		entities = new ArrayList<Entity>();
 		movableEntities = new ArrayList<MovableEntity>();
+		SetupBarriers();
 		SetupCrates();
+	}
+	
+	public void SetupBarriers() {
+		InvisibleBarrier a = new InvisibleBarrier(-30, 0, 30, Gui.HEIGHT);
+		InvisibleBarrier b = new InvisibleBarrier(0, -30, Gui.WIDTH, 30);
+		InvisibleBarrier c = new InvisibleBarrier(Gui.WIDTH, 0, 30, Gui.HEIGHT);
+		InvisibleBarrier d = new InvisibleBarrier(0, Gui.HEIGHT, Gui.WIDTH, 30);
+		
+		entities.add(a);
+		entities.add(b);
+		entities.add(c);
+		entities.add(d);
 	}
 	
 	public void SetupCrates() {
 		
 		Crate c = new Crate(200, 200);
-		Crate d =  new Crate(100, 100);
 		entities.add(c);
 		entities.add(new Crate(0,0));
 		entities.add(new Crate(100,300));
-		//entities.add(d);
-//		for (int i = 0; i < 6; ++i) {
-//			Crate c = new Crate(i*Crate.WIDTH*2, 0);
-//			entities.add(c);
-//		}
 	}
 	
 	@Override
 	public void draw(Graphics2D g) {
         g.setColor(Color.DARK_GRAY);
-        g.fillRect(0, 0, Main.WIDTH, Main.HEIGHT);
+        g.fillRect(0, 0, Gui.WIDTH, Gui.HEIGHT);
         
         for (Entity entity: entities)
         	entity.draw(g);

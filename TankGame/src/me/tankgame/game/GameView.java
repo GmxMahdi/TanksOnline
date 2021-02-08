@@ -1,15 +1,23 @@
 package me.tankgame.game;
 
-import javax.swing.*;
+
+import me.tankgame.ui.NetworkingMenu;
+
 import java.awt.*;
 
-public class GameView extends JPanel {
+
+public class GameView extends NetworkingMenu implements Runnable {
     public TrainingMode trainingMode;
     public GameView() {
+    	this.setFocusable(true);
         trainingMode = new TrainingMode();
         this.addKeyListener(trainingMode);
         this.addMouseListener(trainingMode);
         this.addMouseMotionListener(trainingMode);
+        
+        
+        Thread t = new Thread(this);
+        t.start();
     }
 
     public void run() {
@@ -30,4 +38,8 @@ public class GameView extends JPanel {
         super.paint(g);
         trainingMode.draw((Graphics2D) g);
     }
+
+	@Override
+	public void handleNetworkResponse(Object o) {
+	}
 }

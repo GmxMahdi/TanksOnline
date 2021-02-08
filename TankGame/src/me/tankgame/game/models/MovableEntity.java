@@ -38,40 +38,39 @@ public abstract class MovableEntity extends Entity {
 	
 	public abstract void update(ArrayList<Entity> entities);
 	
-	
-	private boolean colX = false;
-	private boolean colY = false;
-	public void collisionDetection(ArrayList<Entity> entities) {
-		colX = false;
-		colY = false;
-		
-		for (Entity e: entities)
-			if (e != this)
-				isColliding(e);
-		
-		if (!colX) this.X += this.velX;
-		if (!colY) this.Y += this.velY;
-	}
-	public void isColliding(Entity e) {
-		
-		
-		// Horizontal displacement
-		if (this.velX + this.X + this.width > e.X &&  this.velX + this.X < e.X + e.width &&
-			this.Y + this.height > e.Y && this.Y < e.Y + e.height) {
-				// performing action
-				if (velX > 0) this.X = e.X - this.width;
-				if (velX < 0) this.X = e.X + e.width;
-			this.colX = true;
-		}
-		
-		// Vertical displacement
-		if (this.X + this.width > e.X &&  this.X < e.X + e.width &&
-			this.velY + this.Y + this.height > e.Y && this.velY + this.Y < e.Y + e.height) {
-				// performing action
-				if (velY > 0) this.Y = e.Y - this.height;
-				if (velY < 0) this.Y = e.Y + e.height;
-			this.colY = true;
-		}
-	}
+
+//	public void collisionDetection(ArrayList<Entity> entities) {
+//		colX = false;
+//		colY = false;
+//		
+//		for (Entity e: entities)
+//			if (e != this)
+//				isColliding(e);
+//		
+//		if (!colX) this.X += this.velX;
+//		if (!colY) this.Y += this.velY;
+//	}
+//
+//	public void isColliding(Entity e) {
+//		
+//		
+//		// Horizontal displacement
+//		if (this.velX + this.X + this.width > e.X &&  this.velX + this.X < e.X + e.width &&
+//			this.Y + this.height > e.Y && this.Y < e.Y + e.height) {
+//				// performing action
+//				if (velX > 0) this.X = e.X - this.width;
+//				if (velX < 0) this.X = e.X + e.width;
+//			this.colX = true;
+//		}
+//		
+//		// Vertical displacement
+//		if (this.X + this.width > e.X &&  this.X < e.X + e.width &&
+//			this.velY + this.Y + this.height > e.Y && this.velY + this.Y < e.Y + e.height) {
+//				// performing action
+//				if (velY > 0) this.Y = e.Y - this.height;
+//				if (velY < 0) this.Y = e.Y + e.height;
+//			this.colY = true;
+//		}
+//	}
 
 }

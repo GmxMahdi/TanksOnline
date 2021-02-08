@@ -3,8 +3,6 @@ package me.tankgame.game.models;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import me.tankgame.main.Main;
-
 public class Crate extends Entity {
 	
 	public static final int WIDTH = 100;

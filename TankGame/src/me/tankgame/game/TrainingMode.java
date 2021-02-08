@@ -1,9 +1,8 @@
 package me.tankgame.game;
 
 import me.tankgame.game.models.Map;
-import me.tankgame.game.player.Cursor;
 import me.tankgame.game.player.Tank;
-import me.tankgame.main.Main;
+import me.tankgame.ui.Gui;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -19,7 +18,7 @@ public class TrainingMode implements KeyListener, MouseListener, MouseMotionList
         running = true;
         
         map = new Map();
-        player = new Tank((Main.WIDTH / 2f) - 25, (Main.HEIGHT / 2f) - 25, map);
+        player = new Tank((Gui.WIDTH / 2f) - 25, (Gui.HEIGHT / 2f) - 25, map);
         player.SetColor(Color.yellow);
         
         map.AddEntity(player);
