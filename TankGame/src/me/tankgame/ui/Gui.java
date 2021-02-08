@@ -36,6 +36,7 @@ public class Gui {
 		//view.setFocusable(true);
 		
 		currentMenu = new MainMenu();
+		frame.setFocusable(true);
 		frame.getContentPane().add(currentMenu);
 		frame.setVisible(true);
 		frame.pack();
@@ -52,6 +53,7 @@ public class Gui {
 		frame.getContentPane().removeAll();
 		currentMenu = menu;
 		frame.getContentPane().add(currentMenu);
+		currentMenu.requestFocus();
 		frame.revalidate();
 		frame.repaint();
 	}
