@@ -2,6 +2,7 @@ package me.tankgame.components;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -9,6 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import me.tankgame.game.lobby.Lobby;
+import me.tankgame.game.lobby.Player;
+import me.tankgame.network.ClientHandler;
+import me.tankgame.network.paquet.lobby.PaquetGetLobbies;
 
 
 public class LobbyListComponent extends JPanel {
@@ -18,15 +24,9 @@ public class LobbyListComponent extends JPanel {
 	JButton btnRefresh = new JButton("Refresh");
 	JPanel refreshPanel = new JPanel();
 	
-	String[] columnNames = { "Lobby Name", "Players" };
 	
-	// Dummy data
-	Object[][] data = {
-			{"Stacey's Lobby", "1/4"},
-			{"Bobby's Lobby", "3/4"},
-			{"Tracer's Lobby", "2/4"},
-	};
-	JTable tableLobbies = new JTable(data, columnNames);
+	JTable tableLobbies = new JTable();
+	LobbyTableModel model = new LobbyTableModel();
 	JScrollPane scrollPane = new JScrollPane(tableLobbies);
 	
 
@@ -43,5 +43,27 @@ public class LobbyListComponent extends JPanel {
 		btnRefresh.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		
 		tableLobbies.setSelectionModel(new ForcedListSelectionModel());
+		tableLobbies.setModel(model);
+		
+		btnRefresh.addActionListener(e -> {
+			refreshLobbyList();
+		});
+	}
+	
+	public void refreshLobbyList() {
+		removeAll();
+		ClientHandler.send(new PaquetGetLobbies());
+	}
+	
+	public void removeAll() {
+		model.removeAll();
+	}
+	
+	public void populateLobbyList(ArrayList<Lobby> lobbies) {
+		model.addAll(lobbies);
+	}
+	
+	public Lobby getSelectedLobby() {
+		return model.getLobby(tableLobbies.getSelectedRow());
 	}
 }

@@ -59,16 +59,11 @@ public class FriendListComponent extends JPanel {
 		
 		TextFieldWithPrompt txtAddFriend = new TextFieldWithPrompt("Add friend here...");
 		txtAddFriend.setBounds(0, 269, 163, 20);
-		add(txtAddFriend);
-//		model.addElement(new Friend("elmir", FriendStatus.APPROVED));
-//		model.addElement(new Friend("stacey", FriendStatus.APPROVED));
-//		model.addElement(new Friend("bruno", FriendStatus.PENDING));
-//		model.addElement(new Friend("cheese", FriendStatus.APPROVED));
-//		
+		add(txtAddFriend);	
 		
 		btnAddFriend.addActionListener(e -> {
 			String username = txtAddFriend.getText();
-			ClientHandler.send(new AddFriendRequest(NetManager.getUser().getUsername(), username));
+			ClientHandler.send(new AddFriendRequest(NetManager.getPlayer().getUsername(), username));
 			txtAddFriend.setText("");
 		});
 		
@@ -81,7 +76,7 @@ public class FriendListComponent extends JPanel {
 		JMIacceptFriend.addActionListener(e -> {
 			ReplyFriendRequest frf = new ReplyFriendRequest(
 					list.getSelectedValue().username,
-					NetManager.getUser().getUsername(),
+					NetManager.getPlayer().getUsername(),
 					FriendStatus.APPROVED
 					);
 			ClientHandler.send(frf);
@@ -90,7 +85,7 @@ public class FriendListComponent extends JPanel {
 		JMIdeclineFriend.addActionListener(e -> {
 			ReplyFriendRequest frf = new ReplyFriendRequest(
 					list.getSelectedValue().username,
-					NetManager.getUser().getUsername(),
+					NetManager.getPlayer().getUsername(),
 					FriendStatus.DECLINED
 					);
 			ClientHandler.send(frf);
@@ -98,7 +93,7 @@ public class FriendListComponent extends JPanel {
 		
 		JMIremoveFriend.addActionListener(e -> {
 			Friend f = list.getSelectedValue();
-			RemoveFriendRequest rfr = new RemoveFriendRequest(NetManager.getUser().getUsername(), f.username);
+			RemoveFriendRequest rfr = new RemoveFriendRequest(NetManager.getPlayer().getUsername(), f.username);
 			ClientHandler.send(rfr);
 		});
 		
@@ -130,7 +125,7 @@ public class FriendListComponent extends JPanel {
 	}
 
    public void refreshFriendList() {
-	   ClientHandler.send(new FriendListRequest(NetManager.getUser().getUsername()));
+	   ClientHandler.send(new FriendListRequest(NetManager.getPlayer().getUsername()));
    }
    
    public void populateFriendList(ArrayList<Friend> friends) {

@@ -42,4 +42,10 @@ public class GameView extends NetworkingMenu implements Runnable {
 	@Override
 	public void handleNetworkResponse(Object o) {
 	}
+
+	@Override
+	public void onloadSendNetworkRequests() {
+		// TODO Auto-generated method stub
+		
+	}
 }

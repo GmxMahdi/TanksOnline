@@ -53,6 +53,7 @@ public class Gui {
 		frame.getContentPane().removeAll();
 		currentMenu = menu;
 		frame.getContentPane().add(currentMenu);
+		currentMenu.onloadSendNetworkRequests();
 		currentMenu.requestFocus();
 		frame.revalidate();
 		frame.repaint();

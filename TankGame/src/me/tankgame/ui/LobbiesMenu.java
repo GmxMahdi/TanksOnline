@@ -1,15 +1,24 @@
 package me.tankgame.ui;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.TrayIcon.MessageType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import me.tankgame.components.LobbyListComponent;
+import me.tankgame.game.lobby.Lobby;
+import me.tankgame.network.ClientHandler;
+import me.tankgame.network.NetManager;
+import me.tankgame.network.paquet.lobby.CreateLobbyRequest;
+import me.tankgame.network.paquet.lobby.JoinLobbyRequest;
+import me.tankgame.network.paquet.lobby.PaquetGetLobbies;
+import me.tankgame.network.paquet.lobby.PaquetJoinLobby;
 public class LobbiesMenu extends NetworkingMenu {
 	private static final long serialVersionUID = 1L;
 
@@ -39,18 +48,39 @@ public class LobbiesMenu extends NetworkingMenu {
 		btnBack.setBounds(501, 466, 89, 23);
 		
 		add(btnBack);
-		btnBack.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Gui.SwitchMenu(new MainMenu());
-			}
-			
+		btnBack.addActionListener(e -> {
+			Gui.SwitchMenu(new MainMenu());
+		});
+		
+		btnCreateLobby.addActionListener(e -> {
+			String defaultText = NetManager.getPlayer().getUsername() + "'s Lobby";
+            String lobbyName = JOptionPane.showInputDialog(this, "Enter lobby name", "Create Lobby",JOptionPane.PLAIN_MESSAGE, null, null, defaultText).toString();
+            if (lobbyName != null) {
+            	ClientHandler.send(new CreateLobbyRequest(NetManager.getPlayer(), lobbyName));
+            }
+		});
+		
+		btnJoinLobby.addActionListener(e -> {
+			Lobby lobby = lobbyListComponent.getSelectedLobby();
+			if (lobby != null)
+				ClientHandler.send(new JoinLobbyRequest(NetManager.getPlayer(), lobby.getUserIdHost()));
 		});
 	}
 
 	@Override
 	public void handleNetworkResponse(Object o) {
-		// TODO Auto-generated method stub
-		
+		if (o instanceof PaquetJoinLobby) {
+			PaquetJoinLobby paquet = (PaquetJoinLobby)o;
+			Gui.SwitchMenu(new LobbyMenu(paquet.lobby));
+		}
+		else if (o instanceof PaquetGetLobbies) {
+			PaquetGetLobbies paquet = (PaquetGetLobbies)o;
+			lobbyListComponent.populateLobbyList(paquet.lobbies);
+		}
+	}
+
+	@Override
+	public void onloadSendNetworkRequests() {
+		lobbyListComponent.refreshLobbyList();
 	}
 }

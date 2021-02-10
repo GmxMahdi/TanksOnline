@@ -13,6 +13,7 @@ import me.tankgame.network.paquet.database.AddFriendRequest;
 import me.tankgame.network.paquet.database.AddFriendResponse;
 import me.tankgame.network.paquet.database.FriendListResponse;
 import me.tankgame.network.paquet.database.LoginResponse;
+import me.tankgame.network.paquet.database.RefreshFriendListUpdate;
 import me.tankgame.network.paquet.database.RemoveFriendResponse;
 import me.tankgame.network.paquet.database.ReplyFriendResponse;
 
@@ -83,20 +84,18 @@ public class MainMenu extends NetworkingMenu {
 		friendListComponent.setBounds(422, 167, 168, 322);
 		friendListComponent.setVisible(false);
 		add(friendListComponent);
+		
+		if(NetManager.getPlayer().getUserId() != -1)
+			setupConnectedMenu();
 	}
 	
-	public void setupConnectedMenu(LoginResponse re) {
-		NetManager.getUser().setUsername(re.username);
-		NetManager.getUser().setConnected(true);
-		
+	public void setupConnectedMenu() {
 		loginComponent.setVisible(false);
 		panelNotification.setVisible(true);
 		btnPlayOnline.setEnabled(true);
 		friendListComponent.setVisible(true);
-		
-		lblNotification.setText("Connected as " + re.username);
-		
 		friendListComponent.refreshFriendList();
+		lblNotification.setText("Connected as " + NetManager.getPlayer().getUserId() + "-" + NetManager.getPlayer().getUsername());
 	}
 
 	@Override
@@ -105,7 +104,11 @@ public class MainMenu extends NetworkingMenu {
 		{
 			LoginResponse re = (LoginResponse)o;
 			loginComponent.validateLogin(re.isLoginValid);
-			if (re.isLoginValid) setupConnectedMenu(re);
+			if (re.isLoginValid)  {
+				NetManager.setPlayer(re.player);
+				setupConnectedMenu();
+			}
+
 		}
 		else if (o instanceof FriendListResponse) {
 			FriendListResponse flr = (FriendListResponse)o;
@@ -122,5 +125,15 @@ public class MainMenu extends NetworkingMenu {
 		else if (o instanceof ReplyFriendResponse) {
 			friendListComponent.refreshFriendList();
 		}
+		else if (o instanceof RefreshFriendListUpdate) {
+			RefreshFriendListUpdate rflu = (RefreshFriendListUpdate)o;
+			friendListComponent.populateFriendList(rflu.friendList);
+		}
+	}
+
+	@Override
+	public void onloadSendNetworkRequests() {
+		if(NetManager.getPlayer().getUserId() != -1)
+			friendListComponent.refreshFriendList();
 	}
 }

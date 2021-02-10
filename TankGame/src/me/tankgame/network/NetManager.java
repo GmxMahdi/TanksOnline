@@ -1,12 +1,18 @@
 package me.tankgame.network;
 
+import me.tankgame.game.lobby.Player;
+
 public class NetManager {
 
 	private static boolean isServerRunning = false;
-	private static User user = new User();
+	private static Player player = new Player();
 	
-	public static User getUser() {
-		return user;
+	public static Player getPlayer() {
+		return player;
+	}
+	
+	public static void setPlayer(Player player) {
+		NetManager.player = player;
 	}
 	
 	public static boolean isServerRunning() {
