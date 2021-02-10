@@ -28,7 +28,7 @@ public class LobbyMenu extends NetworkingMenu {
 		
 		JLabel lblLobbyName = new JLabel(lobby.getLobbyName());
 		lblLobbyName.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblLobbyName.setBounds(10, 11, 443, 25);
+		lblLobbyName.setBounds(10, 9, 443, 23);
 		add(lblLobbyName);
 		
 		JButton btnNewButton = new JButton("Leave Lobby");

@@ -9,13 +9,13 @@ import java.awt.event.*;
 
 public class TrainingMode implements KeyListener, MouseListener, MouseMotionListener {
     
+	private GameView gameview;
     private Map map;
-    Tank player;
-    boolean running;
+    private Tank player;
 
 
-    public TrainingMode() {
-        running = true;
+    public TrainingMode(GameView gameview) {
+        this.gameview = gameview;
         
         map = new Map();
         player = new Tank((Gui.WIDTH / 2f) - 25, (Gui.HEIGHT / 2f) - 25, map);
@@ -40,12 +40,15 @@ public class TrainingMode implements KeyListener, MouseListener, MouseMotionList
 
     @Override
     public void keyPressed(KeyEvent e) {
-        player.keyDown(e);
+    	player.keyDown(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        player.keyUp(e);
+    	if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+    		gameview.stop();
+    	}
+    	else player.keyUp(e);
     }
 
 	@Override

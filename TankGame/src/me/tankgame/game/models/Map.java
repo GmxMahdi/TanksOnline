@@ -1,6 +1,7 @@
 package me.tankgame.game.models;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
@@ -45,6 +46,10 @@ public class Map extends Entity{
         
         for (Entity entity: entities)
         	entity.draw(g);
+        
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.PLAIN, 30)); 
+        g.drawString("ESC to leave", 150, 40);
 	}
 	
 	public void update() {

@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-
 import me.tankgame.network.ClientHandler;
 
 public class Gui {
@@ -22,7 +21,8 @@ public class Gui {
 	private static NetworkingMenu currentMenu;
 	
 	public static  void start() {
-		FlatDarkLaf.install();
+		FlatDarkLaf.install(); // Mettre en marche le dark theme du GUI
+		
 		frame = new JFrame("Tank");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);

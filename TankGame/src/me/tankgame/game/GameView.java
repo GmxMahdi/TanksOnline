@@ -1,27 +1,33 @@
 package me.tankgame.game;
 
 
+import me.tankgame.ui.Gui;
+import me.tankgame.ui.MainMenu;
 import me.tankgame.ui.NetworkingMenu;
 
 import java.awt.*;
 
 
 public class GameView extends NetworkingMenu implements Runnable {
-    public TrainingMode trainingMode;
+	
+    private TrainingMode trainingMode;
+    private boolean running = false;
+    
     public GameView() {
     	this.setFocusable(true);
-        trainingMode = new TrainingMode();
+        trainingMode = new TrainingMode(this);
         this.addKeyListener(trainingMode);
         this.addMouseListener(trainingMode);
         this.addMouseMotionListener(trainingMode);
         
         
+        running = true;
         Thread t = new Thread(this);
         t.start();
     }
 
     public void run() {
-        while (trainingMode.running) {
+        while (running) {
             trainingMode.update();
             this.repaint();
 
@@ -31,6 +37,11 @@ public class GameView extends NetworkingMenu implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+    
+    public void stop() {
+    	running = false;
+    	Gui.SwitchMenu(new MainMenu());
     }
 
     @Override
