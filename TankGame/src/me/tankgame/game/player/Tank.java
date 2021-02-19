@@ -4,8 +4,11 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import me.tankgame.design.ICollideable;
 import me.tankgame.game.models.Bullet;
+import me.tankgame.game.models.Crate;
 import me.tankgame.game.models.Entity;
+import me.tankgame.game.models.InvisibleBarrier;
 import me.tankgame.game.models.Map;
 import me.tankgame.game.models.MovableEntity;
 
@@ -16,12 +19,13 @@ public class Tank extends MovableEntity {
 	
 	private float barrelLength = 50;
 	
-	private Map map;
+	public Map map_reference;
 	
-	private boolean colX = false;
-	private boolean colY = false;
+	public Tank() {
+		super();
+	}
 	
-    public Tank(float X, float Y, Map map) {
+    public Tank(float X, float Y, Map map_reference) {
         this.X = X;
         this.Y = Y;
         this.width = 30;
@@ -31,21 +35,32 @@ public class Tank extends MovableEntity {
         
         cursor = new Cursor();
         
-        this.map = map;
+        this.map_reference = map_reference;
     }
     
     private float getBarrelAngle() {
     	return (float)Math.atan2(this.cursor.getY() - this.getCenterY(), this.cursor.getX() - this.getCenterX());
     }
+    
+    public Color getColor() { return this.color; }
+    
+    public Cursor getCursor() { return this.cursor; }
+    
+    public void setColor(Color color) { 
+    	this.color = color; 
+    	this.cursor.setColor(color);
+    }
+   
+
 
     public void draw(Graphics2D g) {
         g.setColor(this.color);
         g.fillRect((int)this.X, (int)this.Y, width, height);
         
-        // DRAW BARREL OF TANK (set it to a function or something else
+        // DRAW BARREL OF TANK
         double barrelAngle = getBarrelAngle();
         
-        g.setColor(Color.red);
+        g.setColor(this.color);
         g.setStroke(new BasicStroke(5));
         g.drawLine((int)this.getCenterX(), (int)this.getCenterY(), 
         		(int)(this.getCenterX() + Math.cos(barrelAngle)*barrelLength), (int)(this.getCenterY() + Math.sin(barrelAngle)*barrelLength));
@@ -54,49 +69,27 @@ public class Tank extends MovableEntity {
 
     public void shoot() {
     	double barrelAngle = getBarrelAngle();
-    	Bullet b = new Bullet((int)(this.getCenterX()+ Math.cos(barrelAngle)*barrelLength), (int)(this.getCenterY() + Math.sin(barrelAngle)*barrelLength));
+    	int bulletX = (int)(this.getCenterX()+ Math.cos(barrelAngle)*barrelLength);
+    	int bulletY = (int)(this.getCenterY() + Math.sin(barrelAngle)*barrelLength);
+    	Bullet b = new Bullet(bulletX, bulletY, map_reference);
+    	
         b.setVelX((float)Math.cos(barrelAngle)*b.getSpeed());
         b.setVelY((float)Math.sin(barrelAngle)*b.getSpeed());
         
-        map.AddEntity(b);
-        map.AddMovableEntity(b);
+        map_reference.addEntity(b);
     }
 
    public void update(ArrayList<Entity> entities) {
-	   collisionDetection(entities);
+	   ArrayList<Entity> collidingEntites = this.collidingEntities(entities);
+	   
+	   for (Entity e : collidingEntites) {
+		   if (e == this) continue;
+		   resolveCollision(e);
+	   }
+	   
+	   this.X += this.velX;
+	   this.Y += this.velY;
     }
-   
-	public void collisionDetection(ArrayList<Entity> entities) {
-		colX = false;
-		colY = false;
-		
-		for (Entity e: entities)
-			if (e != this)
-				isColliding(e);
-		
-		if (!colX) this.X += this.velX;
-		if (!colY) this.Y += this.velY;
-	}
-
-	public void isColliding(Entity e) {
-		// Horizontal displacement
-		if (this.velX + this.X + this.width > e.getX() &&  this.getVelX() + this.X < e.getX() + e.getWidth() &&
-			this.Y + this.height > e.getY() && this.Y < e.getY() + e.getHeight()) {
-				// performing action
-				if (velX > 0) this.X = e.getX() - this.width;
-				if (velX < 0) this.X = e.getX() + e.getWidth();
-			this.colX = true;
-		}
-		
-		// Vertical displacement
-		if (this.X + this.width > e.getX() &&  this.X < e.getX() + e.getWidth() &&
-			this.velY + this.Y + this.height > e.getY() && this.velY + this.Y < e.getY() + e.getHeight()) {
-				// performing action
-				if (velY > 0) this.Y = e.getY() - this.height;
-				if (velY < 0) this.Y = e.getY() + e.getHeight();
-			this.colY = true;
-		}
-	}
 
     public void keyDown(KeyEvent e) {
         switch (e.getKeyCode()) {
@@ -131,9 +124,29 @@ public class Tank extends MovableEntity {
                 break;
         }
     }
-    
-    public Color GetColor() { return this.color; }
-    public void SetColor(Color color) { this.color = color; }
-    
-    public Cursor getCursor() { return this.cursor; }
+
+	@Override
+	public void resolveCollision(ICollideable collideable) {
+		collideable.resolveCollision(this);
+	}
+
+	@Override
+	public void resolveCollision(Tank tank) {
+		uncollide(tank);
+	}
+
+	@Override
+	public void resolveCollision(Bullet bullet) {
+		bullet.resolveCollision(this);
+	}
+
+	@Override
+	public void resolveCollision(Crate crate) {
+		uncollide(crate);
+	}
+
+	@Override
+	public void resolveCollision(InvisibleBarrier invisibleBarrier) {
+		uncollide(invisibleBarrier);
+	}
 }

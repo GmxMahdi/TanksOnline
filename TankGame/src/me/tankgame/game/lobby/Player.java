@@ -6,18 +6,15 @@ public class Player {
 
 	private int userId;
 	private String username;
-	private Color tankColor;
+	private Color color;
 	
 	public Player() {
-		this.userId = -1;
-		this.username = "";
-		this.tankColor = Color.RED;
+		this(-1, "n/a");
 	}
 	
 	public Player(int userId, String username) {
 		this.userId = userId;
 		this.username = username;
-		this.tankColor = Color.RED;
 	}
 
 	public int getUserId() {
@@ -29,7 +26,7 @@ public class Player {
 	}
 	
 	public Color getTankColor() {
-		return tankColor;
+		return color;
 	}
 
 	
@@ -42,6 +39,6 @@ public class Player {
 	}
 
 	public void setTankColor(Color tankColor) {
-		this.tankColor = tankColor;
+		this.color = tankColor;
 	}
 }

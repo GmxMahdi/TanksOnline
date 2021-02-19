@@ -17,12 +17,11 @@ public class TrainingMode implements KeyListener, MouseListener, MouseMotionList
     public TrainingMode(GameView gameview) {
         this.gameview = gameview;
         
-        map = new Map();
+        map = new Map(Gui.WIDTH, Gui.HEIGHT);
         player = new Tank((Gui.WIDTH / 2f) - 25, (Gui.HEIGHT / 2f) - 25, map);
-        player.SetColor(Color.yellow);
+        player.setColor(Color.yellow);
         
-        map.AddEntity(player);
-        map.AddMovableEntity(player);
+        map.addEntity(player);
     }
 
     public void update() {
@@ -57,14 +56,10 @@ public class TrainingMode implements KeyListener, MouseListener, MouseMotionList
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

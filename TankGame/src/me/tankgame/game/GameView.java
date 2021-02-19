@@ -8,6 +8,7 @@ import me.tankgame.ui.NetworkingMenu;
 import java.awt.*;
 
 
+@SuppressWarnings("serial")
 public class GameView extends NetworkingMenu implements Runnable {
 	
     private TrainingMode trainingMode;

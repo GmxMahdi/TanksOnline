@@ -1,16 +1,12 @@
 package me.tankgame.components;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-
 import me.tankgame.game.lobby.Lobby;
-import me.tankgame.game.lobby.Player;
 
 
-
+@SuppressWarnings("serial")
 public class LobbyTableModel extends AbstractTableModel {
 
 	static private ArrayList<Lobby> lobbies;

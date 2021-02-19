@@ -9,8 +9,8 @@ import javax.swing.SwingConstants;
 
 import me.tankgame.game.GameView;
 import me.tankgame.network.NetManager;
-import me.tankgame.network.paquet.database.AddFriendRequest;
 import me.tankgame.network.paquet.database.AddFriendResponse;
+import me.tankgame.network.paquet.database.CreateAccountResponse;
 import me.tankgame.network.paquet.database.FriendListResponse;
 import me.tankgame.network.paquet.database.LoginResponse;
 import me.tankgame.network.paquet.database.RefreshFriendListUpdate;
@@ -20,9 +20,10 @@ import me.tankgame.network.paquet.database.ReplyFriendResponse;
 import java.awt.Font;
 import java.awt.Color;
 import me.tankgame.components.LoginComponent;
+import me.tankgame.components.CreateAccountPopup;
 import me.tankgame.components.FriendListComponent;
-import me.tankgame.components.TextFieldWithPrompt;
 
+@SuppressWarnings("serial")
 public class MainMenu extends NetworkingMenu {
 	
 	private LoginComponent loginComponent;
@@ -30,6 +31,7 @@ public class MainMenu extends NetworkingMenu {
 	private JLabel lblNotification;
 	private JButton btnPlayOnline;
 	private FriendListComponent friendListComponent;
+	private JButton btnCreateAccount;
 	
 	public MainMenu() {
 		setLayout(null);
@@ -58,19 +60,20 @@ public class MainMenu extends NetworkingMenu {
 		});
 		
 		
-		JLabel lblTitle = new JLabel("Tanks?!");
+		JLabel lblTitle = new JLabel("Tank Online (Client)");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 36));
-		lblTitle.setBounds(46, 34, 168, 104);
+		lblTitle.setBounds(0, 45, 351, 73);
 		add(lblTitle);
 		
 		panelNotification = new JPanel();
-		panelNotification.setBounds(10, 11, 206, 48);
+		panelNotification.setBounds(10, 11, 206, 23);
 		panelNotification.setVisible(false);
 		add(panelNotification);
 		panelNotification.setLayout(null);
 		
 		lblNotification = new JLabel("Connected as ?????");
+		lblNotification.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNotification.setForeground(Color.GREEN);
 		lblNotification.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNotification.setBounds(0, 0, 196, 14);
@@ -81,9 +84,24 @@ public class MainMenu extends NetworkingMenu {
 		add(loginComponent);
 		
 		friendListComponent = new FriendListComponent();
-		friendListComponent.setBounds(422, 167, 168, 322);
+		friendListComponent.setBounds(422, 236, 168, 253);
 		friendListComponent.setVisible(false);
 		add(friendListComponent);
+		
+		btnCreateAccount = new JButton("Create Account");
+		btnCreateAccount.setBounds(475, 466, 115, 23);
+		add(btnCreateAccount);
+		
+		
+		btnCreateAccount.addActionListener(e -> {
+			CreateAccountPopup cap = new CreateAccountPopup();
+			cap.showPopup();
+		});
+		
+		if(!NetManager.isServerRunning()) {
+			loginComponent.setVisible(false);
+			btnCreateAccount.setVisible(false);
+		}
 		
 		if(NetManager.getPlayer().getUserId() != -1)
 			setupConnectedMenu();
@@ -91,11 +109,12 @@ public class MainMenu extends NetworkingMenu {
 	
 	public void setupConnectedMenu() {
 		loginComponent.setVisible(false);
+		btnCreateAccount.setVisible(false);
 		panelNotification.setVisible(true);
 		btnPlayOnline.setEnabled(true);
 		friendListComponent.setVisible(true);
 		friendListComponent.refreshFriendList();
-		lblNotification.setText("Connected as " + NetManager.getPlayer().getUserId() + "-" + NetManager.getPlayer().getUsername());
+		lblNotification.setText("Connected as "+ NetManager.getPlayer().getUsername().toUpperCase());
 	}
 
 	@Override
@@ -110,6 +129,10 @@ public class MainMenu extends NetworkingMenu {
 			}
 
 		}
+		else if (o instanceof CreateAccountResponse) {
+			CreateAccountResponse paquet = (CreateAccountResponse)o;
+			Gui.showMessage(paquet.message);
+		}
 		else if (o instanceof FriendListResponse) {
 			FriendListResponse flr = (FriendListResponse)o;
 			friendListComponent.populateFriendList(flr.friendList);
@@ -117,7 +140,7 @@ public class MainMenu extends NetworkingMenu {
 		else if (o instanceof AddFriendResponse) {
 			AddFriendResponse adr = (AddFriendResponse)o;
 			if(adr.isValid) friendListComponent.refreshFriendList();
-			else Gui.ShowWarning("Could not add friend \"" + adr.username +"\"");
+			else Gui.showMessage("Could not add friend \"" + adr.username +"\"");
 		}
 		else if (o instanceof RemoveFriendResponse) {
 			friendListComponent.refreshFriendList();

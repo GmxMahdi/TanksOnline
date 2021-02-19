@@ -4,16 +4,12 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
-import javax.swing.JTable;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -29,6 +25,8 @@ import me.tankgame.network.paquet.database.RemoveFriendRequest;
 import me.tankgame.network.paquet.database.ReplyFriendRequest;
 
 public class FriendListComponent extends JPanel {
+	private static final long serialVersionUID = 4256046098911054582L;
+	
 	private JPopupMenu popup;
 	private DefaultListModel<Friend> model;
 	
@@ -38,7 +36,7 @@ public class FriendListComponent extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(0, 28, 163, 230);
+		scrollPane.setBounds(0, 28, 163, 161);
 		add(scrollPane);
 		
 		JList<Friend> list = new JList<Friend>();
@@ -50,7 +48,7 @@ public class FriendListComponent extends JPanel {
 		add(lblNewLabel);
 		
 		JButton btnAddFriend = new JButton("Add Friend");
-		btnAddFriend.setBounds(74, 297, 89, 23);
+		btnAddFriend.setBounds(60, 228, 103, 23);
 		add(btnAddFriend);
 		
 		
@@ -58,7 +56,7 @@ public class FriendListComponent extends JPanel {
 		list.setModel(model);
 		
 		TextFieldWithPrompt txtAddFriend = new TextFieldWithPrompt("Add friend here...");
-		txtAddFriend.setBounds(0, 269, 163, 20);
+		txtAddFriend.setBounds(0, 200, 163, 20);
 		add(txtAddFriend);	
 		
 		btnAddFriend.addActionListener(e -> {

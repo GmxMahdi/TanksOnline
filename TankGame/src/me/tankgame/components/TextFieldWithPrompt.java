@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import javax.swing.FocusManager;
 import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class TextFieldWithPrompt extends JTextField{
 
 	private String placeholder = "";

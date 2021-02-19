@@ -12,7 +12,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import me.tankgame.game.lobby.Lobby;
-import me.tankgame.game.lobby.Player;
 import me.tankgame.network.ClientHandler;
 import me.tankgame.network.paquet.lobby.PaquetGetLobbies;
 
@@ -51,7 +50,6 @@ public class LobbyListComponent extends JPanel {
 	}
 	
 	public void refreshLobbyList() {
-		removeAll();
 		ClientHandler.send(new PaquetGetLobbies());
 	}
 	
@@ -60,10 +58,13 @@ public class LobbyListComponent extends JPanel {
 	}
 	
 	public void populateLobbyList(ArrayList<Lobby> lobbies) {
+		removeAll();
 		model.addAll(lobbies);
 	}
 	
 	public Lobby getSelectedLobby() {
-		return model.getLobby(tableLobbies.getSelectedRow());
+		if (tableLobbies.getSelectedRow() != -1)
+			return model.getLobby(tableLobbies.getSelectedRow());
+		return null;
 	}
 }

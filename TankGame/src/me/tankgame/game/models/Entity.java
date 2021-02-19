@@ -1,8 +1,11 @@
 package me.tankgame.game.models;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
-public abstract class Entity {
+import me.tankgame.design.ICollideable;
+
+public abstract class Entity implements ICollideable {
 
 	protected float X;
 	protected float Y;
@@ -26,6 +29,7 @@ public abstract class Entity {
 	}
 	
 	public abstract void draw(Graphics2D g);
+	public abstract void update(ArrayList<Entity> entities);
 	
 	public float getX() { return X; }
 	public float getY() { return Y; }

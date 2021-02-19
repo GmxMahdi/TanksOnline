@@ -39,38 +39,45 @@ public abstract class MovableEntity extends Entity {
 	public abstract void update(ArrayList<Entity> entities);
 	
 
-//	public void collisionDetection(ArrayList<Entity> entities) {
-//		colX = false;
-//		colY = false;
-//		
-//		for (Entity e: entities)
-//			if (e != this)
-//				isColliding(e);
-//		
-//		if (!colX) this.X += this.velX;
-//		if (!colY) this.Y += this.velY;
-//	}
-//
-//	public void isColliding(Entity e) {
-//		
-//		
-//		// Horizontal displacement
-//		if (this.velX + this.X + this.width > e.X &&  this.velX + this.X < e.X + e.width &&
-//			this.Y + this.height > e.Y && this.Y < e.Y + e.height) {
-//				// performing action
-//				if (velX > 0) this.X = e.X - this.width;
-//				if (velX < 0) this.X = e.X + e.width;
-//			this.colX = true;
-//		}
-//		
-//		// Vertical displacement
-//		if (this.X + this.width > e.X &&  this.X < e.X + e.width &&
-//			this.velY + this.Y + this.height > e.Y && this.velY + this.Y < e.Y + e.height) {
-//				// performing action
-//				if (velY > 0) this.Y = e.Y - this.height;
-//				if (velY < 0) this.Y = e.Y + e.height;
-//			this.colY = true;
-//		}
-//	}
+	protected ArrayList<Entity> collidingEntities(ArrayList<Entity> entities) {
+		ArrayList<Entity> collisions = new ArrayList<Entity>();
+		for (Entity e: entities)
+			if (isColliding(e))
+				collisions.add(e);
+		return collisions;
+	}
+	
+	protected boolean isColliding(Entity e) {
+		if (this.velX + this.X + this.width > e.getX() &&  
+			this.getVelX() + this.X < e.getX() + e.getWidth() &&
+			this.velY + this.Y + this.height > e.getY() && 
+			this.velY + this.Y < e.getY() + e.getHeight()) {
+			return true;
+		}	
+		return false;
+	}
+	
+	protected void uncollide(Entity e) {
+		// Horizontal displacement
+		if (this.velX + this.X + this.width > e.X &&  this.velX + this.X < e.X + e.width &&
+			this.Y + this.height > e.Y && this.Y < e.Y + e.height) {
+				// Uncollide
+				if (velX > 0) this.X = e.X - this.width;
+				if (velX < 0) this.X = e.X + e.width;
+			// Ajustment
+			this.X += -this.velX;
+		}
+		
+		// Vertical displacement
+		if (this.X + this.width > e.X &&  this.X < e.X + e.width &&
+			this.velY + this.Y + this.height > e.Y && this.velY + this.Y < e.Y + e.height) {
+				// Uncollide
+				if (velY > 0) this.Y = e.Y - this.height;
+				if (velY < 0) this.Y = e.Y + e.height;
+				
+			// Ajustment
+			this.Y += -this.velY;
+		}
+	}
 
 }

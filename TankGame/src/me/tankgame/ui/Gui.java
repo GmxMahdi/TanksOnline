@@ -9,10 +9,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.IntelliJTheme;
+
 import me.tankgame.network.ClientHandler;
+import me.tankgame.main.Main;
+import java.io.InputStream;
 
 public class Gui {
 
+	public static final String TITLE = "TANKS ONLINE CLIENT";
 	public static int WIDTH = 600;
 	public static int HEIGHT = 500;
 	
@@ -21,9 +26,12 @@ public class Gui {
 	private static NetworkingMenu currentMenu;
 	
 	public static  void start() {
-		FlatDarkLaf.install(); // Mettre en marche le dark theme du GUI
+		IntelliJTheme.install(
+				Main.class.getResourceAsStream("/me/tankgame/themes/one_dark.theme.json")
+		); // Mettre en marche le dark theme du GUI
+
 		
-		frame = new JFrame("Tank");
+		frame = new JFrame(TITLE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);	
@@ -35,18 +43,17 @@ public class Gui {
 		//GameView view = new GameView();
 		//view.setFocusable(true);
 		
-		currentMenu = new MainMenu();
+		currentMenu = new ConnectToServerMenu();
 		frame.setFocusable(true);
 		frame.getContentPane().add(currentMenu);
 		frame.setVisible(true);
 		frame.pack();
-		
 		ClientHandler.start();
 		//view.run();
 	}
 	
-	public static void ShowWarning(String message) {
-		JOptionPane.showMessageDialog(null, message);
+	public static void showMessage(String message) {
+		JOptionPane.showMessageDialog(frame, message);
 	}
 	
 	public static void SwitchMenu(NetworkingMenu menu) {

@@ -11,7 +11,10 @@ import me.tankgame.network.ClientHandler;
 import me.tankgame.network.paquet.database.LoginRequest;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+@SuppressWarnings("serial")
 public class LoginComponent extends JPanel {
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
@@ -50,15 +53,22 @@ public class LoginComponent extends JPanel {
 		add(lblNotification);
 		
 		
-		btnLogin.addActionListener(e -> {
-			lblNotification.setText("");
-			if (txtUsername.getText().isEmpty() || txtPassword.getPassword().length == 0)
-			{
-				lblNotification.setForeground(Color.ORANGE);
-				lblNotification.setText("Fields cannot be empty.");	
+		ActionListener e = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				lblNotification.setText("");
+				if (txtUsername.getText().isEmpty() || txtPassword.getPassword().length == 0)
+				{
+					lblNotification.setForeground(Color.ORANGE);
+					lblNotification.setText("Fields cannot be empty.");	
+				}
+				else sendLoginRequest();
 			}
-			else sendLoginRequest();
-		});
+			
+		};
+		
+		btnLogin.addActionListener(e);
+		txtPassword.addActionListener(e);
 	}
 	
 	public void sendLoginRequest() {

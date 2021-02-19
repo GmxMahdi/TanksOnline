@@ -13,14 +13,16 @@ public class PaquetMessage {
 	public static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
 	
 	public String getMessage() {
-		return "[" + 
+		return "\n[" + 
 				timeStamp.format(dtf) + "] " 
 				+ username + ": " 
-				+ text + "\n"; 
+				+ text; 
 	}
 	
 	public PaquetMessage() {
-		
+		this.username = "";
+		this.text = "";
+		this.idLobby = -1;
 	}
 	
 	public PaquetMessage(int idLobby, String username, String text) {
